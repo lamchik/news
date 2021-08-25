@@ -5,6 +5,12 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import { NewsList } from './components/NewsList'
 import {State, DataState, Action} from './store/reducer'
 import {APINews, apiNewsToNews} from "./domain/news";
+import { styled } from '@material-ui/core/styles';
+import Typography from "@material-ui/core/Typography";
+
+const MainContainer = styled(Container)({
+  backgroundColor: '#1e2229'
+});
 
 function App() {
   const dataState = useSelector<State, DataState>((state) => state.dataState)
@@ -36,13 +42,13 @@ function App() {
   },[])
 
   return (
-    <Container maxWidth="xl">
+    <MainContainer maxWidth="xl">
       {(dataState === "failed" && <p>{error}</p>)}
       {(dataState === "idle" || dataState === "loading") && <CircularProgress />}
       {dataState === "loaded" &&
         <NewsList />
       }
-    </Container>
+    </MainContainer>
   );
 }
 

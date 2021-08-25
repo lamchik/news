@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {State} from "../../store/reducer";
 import { News } from '../../domain/news'
 
+
 export function NewsList() {
   const allNews = useSelector<State, News[]>((state) => state.allNews)
 
