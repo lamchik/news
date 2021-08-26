@@ -9,7 +9,7 @@ export function NewsList() {
   const allNews = useSelector<State, News[]>((state) => state.allNews)
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} >
       {allNews.map(single => (
         <Grid key={single.id} item xs={3}>
           <NewsCard news={single} />

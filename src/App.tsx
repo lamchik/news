@@ -6,10 +6,13 @@ import { NewsList } from './components/NewsList'
 import {State, DataState, Action} from './store/reducer'
 import {APINews, apiNewsToNews} from "./domain/news";
 import { styled } from '@material-ui/core/styles';
-import Typography from "@material-ui/core/Typography";
 
 const MainContainer = styled(Container)({
   backgroundColor: '#1e2229'
+});
+
+const Preloader = styled(CircularProgress)({
+  color: '#f19460'
 });
 
 function App() {
@@ -27,7 +30,8 @@ function App() {
     }).then(res => {
       return res.json()
     }).then((newsIds: number[]) => {
-      const firstNewsIds = newsIds.slice(0, 100)
+      // todo: change to 100
+      const firstNewsIds = newsIds.slice(0, 10)
       const promiseArray = firstNewsIds.map(newsId => fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`, {method:"GET"}))
       return Promise.all(promiseArray)
     }).then(allFetchResults => {
@@ -44,7 +48,7 @@ function App() {
   return (
     <MainContainer maxWidth="xl">
       {(dataState === "failed" && <p>{error}</p>)}
-      {(dataState === "idle" || dataState === "loading") && <CircularProgress />}
+      {(dataState === "idle" || dataState === "loading") && <Preloader />}
       {dataState === "loaded" &&
         <NewsList />
       }

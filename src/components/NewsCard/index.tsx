@@ -1,4 +1,4 @@
-import Card from '@material-ui/core/Card';
+import {Card as CardComponent} from '@material-ui/core/';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -32,7 +32,8 @@ const Score = styled(Typography)({
   fontWeight: "lighter",
   fontSize: "12px",
   color: '#D1CCDB',
-  opacity: '0.8'
+  opacity: '0.8',
+  paddingRight: '10px'
 });
 
 const Date = styled(Typography)({
@@ -47,21 +48,41 @@ const Author = styled(Typography)({
   color: '#DFDAEB'
 });
 
-const CardFilling = styled(CardContent)({
-  backgroundColor: '#5F5161'
+const Card = styled(CardComponent)({
+  backgroundColor: '#5F5161',
+  height: "100%",
+  padding: '15px',
+  boxSizing: 'border-box',
+});
+
+const CardCont = styled(CardContent)({
+  padding: '0',
+  height: "100%",
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+});
+
+const ScoreAuthorWrap = styled(Typography)({
+  display: 'flex',
+  paddingBottom: '5px'
 });
 
 export function NewsCard({news}: Props) {
 
   return (
     <Card>
-      <CardFilling>
+      <CardCont>
         <Date>{news.time.toDateString()}</Date>
         <Title>{news.title}</Title>
-        <Score>{news.score}</Score>
-        <Author>{news.by}</Author>
-        <MyButton>Learn more</MyButton>
-      </CardFilling>
+        <Typography>
+          <ScoreAuthorWrap>
+            <Score>{news.score}</Score>
+            <Author>{news.by}</Author>
+          </ScoreAuthorWrap>
+          <MyButton>Learn more</MyButton>
+        </Typography>
+      </CardCont>
     </Card>
   );
 }
