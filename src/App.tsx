@@ -6,6 +6,8 @@ import { NewsList } from './components/NewsList'
 import {State, DataState, Action} from './store/reducer'
 import {APINews, apiNewsToNews} from "./domain/news";
 import { styled } from '@material-ui/core/styles';
+import { BrowserRouter, Route } from 'react-router-dom';
+import {NewsPage} from "./components/NewsPage";
 
 const MainContainer = styled(Container)({
   backgroundColor: '#1e2229'
@@ -46,13 +48,20 @@ function App() {
   },[])
 
   return (
-    <MainContainer maxWidth="xl">
-      {(dataState === "failed" && <p>{error}</p>)}
-      {(dataState === "idle" || dataState === "loading") && <Preloader />}
-      {dataState === "loaded" &&
-        <NewsList />
-      }
-    </MainContainer>
+    <BrowserRouter>
+      <Route exact path='/'>
+        <MainContainer maxWidth="xl">
+          {(dataState === "failed" && <p>{error}</p>)}
+          {(dataState === "idle" || dataState === "loading") && <Preloader />}
+          {dataState === "loaded" &&
+          <NewsList />
+          }
+        </MainContainer>
+      </Route>
+      <Route path='/news'>
+        <NewsPage></NewsPage>
+      </Route>
+    </BrowserRouter>
   );
 }
 

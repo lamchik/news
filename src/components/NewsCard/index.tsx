@@ -3,6 +3,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { styled } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+
 
 import { News } from '../../domain/news'
 
@@ -68,6 +70,10 @@ const ScoreAuthorWrap = styled(Typography)({
   paddingBottom: '5px'
 });
 
+const ButtonLink = styled(Link)({
+  textDecoration: 'none'
+});
+
 export function NewsCard({news}: Props) {
 
   return (
@@ -80,7 +86,9 @@ export function NewsCard({news}: Props) {
             <Score>{news.score}</Score>
             <Author>{news.by}</Author>
           </ScoreAuthorWrap>
-          <MyButton>Learn more</MyButton>
+          <ButtonLink to="/news" target="_blank">
+            <MyButton>Learn more</MyButton>
+          </ButtonLink>
         </Typography>
       </CardCont>
     </Card>
