@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { Container } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -8,9 +8,20 @@ import {APINews, apiNewsToNews} from "./domain/news";
 import { styled } from '@material-ui/core/styles';
 import { BrowserRouter, Route } from 'react-router-dom';
 import {NewsPage} from "./components/NewsPage";
+import Typography from '@material-ui/core/Typography';
+
+
+const Header = styled(Typography)({
+  fontSize: "32px",
+  fontWeight: "bold",
+  color: '#fafafa',
+  padding: '30px 0'
+});
+
+
 
 const MainContainer = styled(Container)({
-  backgroundColor: '#1e2229'
+  backgroundColor: '#1e1f25'
 });
 
 const Preloader = styled(CircularProgress)({
@@ -33,7 +44,7 @@ function App() {
       return res.json()
     }).then((newsIds: number[]) => {
       // todo: change to 100
-      const firstNewsIds = newsIds.slice(0, 10)
+      const firstNewsIds = newsIds.slice(0, 15)
       const promiseArray = firstNewsIds.map(newsId => fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`, {method:"GET"}))
       return Promise.all(promiseArray)
     }).then(allFetchResults => {
@@ -51,6 +62,7 @@ function App() {
     <BrowserRouter>
       <Route exact path='/'>
         <MainContainer maxWidth="xl">
+          <Header>Hacker News</Header>
           {(dataState === "failed" && <p>{error}</p>)}
           {(dataState === "idle" || dataState === "loading") && <Preloader />}
           {dataState === "loaded" &&
@@ -58,8 +70,8 @@ function App() {
           }
         </MainContainer>
       </Route>
-      <Route path='/news'>
-        <NewsPage></NewsPage>
+      <Route path='/news/:id'>
+        <NewsPage/>
       </Route>
     </BrowserRouter>
   );

@@ -4,36 +4,34 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { styled } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
-
-
 import { News } from '../../domain/news'
 
 type Props = {
   news: News,
 }
 
-const MyButton = styled(Button)({
-  background: 'linear-gradient(45deg, #9B7AEB 30%, #FF8E53 90%)',
-  border: 0,
-  borderRadius: 3,
-  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  color: 'white',
-  height: 48,
-  padding: '0 10px',
-  maxHeight: '30px',
-});
+// const MyButton = styled(Button)({
+//   background: 'linear-gradient(45deg, #9B7AEB 30%, #FF8E53 90%)',
+//   border: 0,
+//   borderRadius: 3,
+//   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+//   color: 'white',
+//   height: 48,
+//   padding: '0 10px',
+//   maxHeight: '30px',
+// });
 
 const Title = styled(Typography)({
   fontSize: "18px",
-  fontWeight: "bold",
-  color: '#F1ECFE',
+  fontWeight: "normal",
+  color: '#fafafa',
 });
 
 
 const Score = styled(Typography)({
   fontWeight: "lighter",
   fontSize: "12px",
-  color: '#D1CCDB',
+  color: '#d1d1d1',
   opacity: '0.8',
   paddingRight: '10px'
 });
@@ -41,17 +39,17 @@ const Score = styled(Typography)({
 const Date = styled(Typography)({
   fontSize: "13px",
   fontWeight: "lighter",
-  color: '#DFDAEB'
+  color: '#d1d1d1'
 });
 
 const Author = styled(Typography)({
   fontSize: "12px",
   fontWeight: "lighter",
-  color: '#DFDAEB'
+  color: '#d1d1d1'
 });
 
 const Card = styled(CardComponent)({
-  backgroundColor: '#5F5161',
+  backgroundColor: '#313238',
   height: "100%",
   padding: '15px',
   boxSizing: 'border-box',
@@ -65,10 +63,10 @@ const CardCont = styled(CardContent)({
   justifyContent: 'space-between',
 });
 
-const ScoreAuthorWrap = styled(Typography)({
-  display: 'flex',
-  paddingBottom: '5px'
-});
+// const ButtonStyle = styled(Button)({
+//   color: '#D1CCDB',
+//   borderColor: '#D1CCDB'
+// });
 
 const ButtonLink = styled(Link)({
   textDecoration: 'none'
@@ -81,15 +79,16 @@ export function NewsCard({news}: Props) {
       <CardCont>
         <Date>{news.time.toDateString()}</Date>
         <Title>{news.title}</Title>
-        <Typography>
-          <ScoreAuthorWrap>
+        <div  style={{display: "flex", flexDirection: "column"}}>
+          <div style={{display: "flex", paddingBottom: 5}}>
             <Score>{news.score}</Score>
             <Author>{news.by}</Author>
-          </ScoreAuthorWrap>
-          <ButtonLink to="/news" target="_blank">
-            <MyButton>Learn more</MyButton>
+          </div>
+          <ButtonLink to={`/news/${news.id}`}>
+            <Button variant="contained">Learn more</Button>
           </ButtonLink>
-        </Typography>
+        </div>
+
       </CardCont>
     </Card>
   );
