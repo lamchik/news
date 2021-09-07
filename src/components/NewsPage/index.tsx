@@ -1,5 +1,4 @@
 import React, { useEffect, useState, createRef } from "react";
-import { Container } from "@material-ui/core";
 import { Card as CardComponent } from "@material-ui/core/";
 import { Link, useParams } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
@@ -9,9 +8,7 @@ import { APINews, apiNewsToNews, News, Comment } from "../../domain/news";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { DataState, State } from "../../store/reducer";
 import { useSelector } from "react-redux";
-import { styled } from "@material-ui/core/styles";
 import MaterialUiLink from "@material-ui/core/Link";
-import Box from "@material-ui/core/Box";
 import TreeView from "@material-ui/lab/TreeView";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -287,7 +284,9 @@ const Comments = ({ state, comments, postId }: CommentsProps) => {
   const tree = buildTree(comments, postId);
   return (
     <>
-      <Typography className={classes.commentTitle}>Comments</Typography>
+      <Typography className={classes.commentTitle}>
+        {`${comments.length} Comments`}
+      </Typography>
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
