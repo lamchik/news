@@ -1,4 +1,4 @@
-# News
+# News (in progress)
 
 Интерфейс для сайта новостей  Hacker News https://news.ycombinator.com/news
 
