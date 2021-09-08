@@ -5,31 +5,47 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { NewsList } from "./components/NewsList";
 import { State, DataState, Action } from "./store/reducer";
 import { APINews, apiNewsToNews } from "./domain/news";
-import { styled } from "@material-ui/core/styles";
+import { makeStyles, styled } from "@material-ui/core/styles";
 import { BrowserRouter, Route } from "react-router-dom";
 import { NewsPage } from "./components/NewsPage";
 import Typography from "@material-ui/core/Typography";
-
-const Header = styled(Typography)({
-  fontSize: "32px",
-  fontWeight: "bold",
-  color: "#fafafa",
-  padding: "30px 0",
-});
-
-const MainContainer = styled(Container)({
-  backgroundColor: "#1e1f25",
-  minHeight: "100vh",
-});
+import Button from "@material-ui/core/Button";
 
 const Preloader = styled(CircularProgress)({
   color: "#f19460",
+});
+
+const useStyles = makeStyles({
+  titleButtonWrap: {
+    display: "flex",
+  },
+  header: {
+    fontSize: "32px",
+    fontWeight: "bold",
+    color: "#fafafa",
+    margin: "0 30px 30px 0",
+  },
+
+  container: {
+    backgroundColor: "#1e1f25",
+    minHeight: "100vh",
+    padding: "30px",
+  },
+
+  button: {
+    width: "70px",
+    height: "35px",
+    borderColor: "#d1d1d1",
+    color: "#d1d1d1",
+    marginTop: "7px",
+  },
 });
 
 function App() {
   const dataState = useSelector<State, DataState>((state) => state.dataState);
   const error = useSelector<State, string | undefined>((state) => state.error);
   const dispatch = useDispatch();
+  const classes = useStyles();
 
   const dispatchAction = (action: Action) => {
     dispatch(action);
@@ -68,9 +84,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      <MainContainer maxWidth="xl">
+      <Container className={classes.container} maxWidth="xl">
         <Route exact path="/">
-          <Header>Hacker News</Header>
+          <div className={classes.titleButtonWrap}>
+            <Typography className={classes.header}>Hacker News</Typography>
+            <Button className={classes.button} variant="outlined">
+              Update
+            </Button>
+          </div>
           {dataState === "failed" && <p>{error}</p>}
           {(dataState === "idle" || dataState === "loading") && <Preloader />}
           {dataState === "loaded" && <NewsList />}
@@ -78,7 +99,7 @@ function App() {
         <Route path="/news/:id">
           <NewsPage />
         </Route>
-      </MainContainer>
+      </Container>
     </BrowserRouter>
   );
 }
