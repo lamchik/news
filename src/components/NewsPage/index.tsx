@@ -141,7 +141,7 @@ export function NewsPage() {
   let { id } = useParams<Params>();
 
   const classes = useStyles();
-  function takeComments(comments: number[] | undefined) {
+  function loadComments(comments: number[] | undefined) {
     if (comments) {
       setCommentsAreLoading("loading");
       getComments(comments)
@@ -157,6 +157,33 @@ export function NewsPage() {
     }
   }
 
+  function getCommentsFromApiWithLoader() {
+    fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`, {
+      method: "GET",
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res: APINews) => {
+        const convertedNews = apiNewsToNews(res);
+        setOneNews(convertedNews);
+        if (res.kids) {
+          setCommentsAreLoading("loading");
+          getComments(res.kids)
+            .then((kid) => {
+              setComments(kid);
+              setCommentsAreLoading("loaded");
+            })
+            .catch((err) => {
+              console.log(err);
+              setCommentsAreLoading("failed");
+            });
+        } else {
+          setCommentsAreLoading("loaded");
+        }
+      });
+  }
+
   function getCommentsFromApi() {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`, {
       method: "GET",
@@ -167,7 +194,15 @@ export function NewsPage() {
       .then((res: APINews) => {
         const convertedNews = apiNewsToNews(res);
         setOneNews(convertedNews);
-        takeComments(res.kids);
+        if (res.kids) {
+          getComments(res.kids)
+            .then((kid) => {
+              setComments(kid);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       });
   }
 
@@ -175,10 +210,10 @@ export function NewsPage() {
     if (allNews[id]) {
       setOneNews(allNews[id]);
       const arrayOfKids = allNews[id].kids;
-      takeComments(arrayOfKids);
+      loadComments(arrayOfKids);
       return;
     }
-    getCommentsFromApi();
+    getCommentsFromApiWithLoader();
     setInterval(getCommentsFromApi, 60000);
   }, []);
 
