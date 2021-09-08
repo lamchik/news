@@ -26,6 +26,10 @@ type RenderTree = {
   children?: RenderTree[];
 };
 
+type Click = {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+};
+
 const useStyles = makeStyles({
   root: {
     color: "#d1d1d1",
@@ -37,6 +41,10 @@ const useStyles = makeStyles({
 
   commentWrap: {
     margin: "20px 0 0 0",
+  },
+
+  commentTitleButtonWrap: {
+    display: "flex",
   },
 
   commentBy: {
@@ -64,9 +72,9 @@ const useStyles = makeStyles({
     fontSize: "22px",
     fontWeight: "normal",
     color: "#d1d1d1",
+    marginRight: "20px",
   },
   backButton: {
-    marginTop: "20px",
     borderColor: "#d1d1d1",
     color: "#d1d1d1",
   },
@@ -153,13 +161,7 @@ export function NewsPage() {
     }
   }
 
-  useEffect(() => {
-    if (allNews[id]) {
-      setOneNews(allNews[id]);
-      const arrayOfKids = allNews[id].kids;
-      takeComments(arrayOfKids);
-      return;
-    }
+  function getCommentsFromApi() {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`, {
       method: "GET",
     })
@@ -171,6 +173,16 @@ export function NewsPage() {
         setOneNews(convertedNews);
         takeComments(res.kids);
       });
+  }
+
+  useEffect(() => {
+    if (allNews[id]) {
+      setOneNews(allNews[id]);
+      const arrayOfKids = allNews[id].kids;
+      takeComments(arrayOfKids);
+      return;
+    }
+    getCommentsFromApi();
   }, []);
 
   function getComments(kids: number[]): Promise<Comment[]> {
@@ -231,7 +243,12 @@ export function NewsPage() {
           </div>
         </CardContent>
       </CardComponent>
-      <Comments state={commentsAreLoading} comments={comments} postId={id} />
+      <Comments
+        state={commentsAreLoading}
+        comments={comments}
+        postId={id}
+        updateComments={getCommentsFromApi}
+      />
     </div>
   );
 }
@@ -240,9 +257,15 @@ type CommentsProps = {
   postId: string;
   state: DataState;
   comments: Comment[];
+  updateComments: any;
 };
 
-const Comments = ({ state, comments, postId }: CommentsProps) => {
+const Comments = ({
+  state,
+  comments,
+  postId,
+  updateComments,
+}: CommentsProps) => {
   console.log(comments, state);
   const classes = useStyles();
   const renderTree = (nodes: RenderTree[] | undefined) => {
@@ -284,9 +307,18 @@ const Comments = ({ state, comments, postId }: CommentsProps) => {
   const tree = buildTree(comments, postId);
   return (
     <>
-      <Typography className={classes.commentTitle}>
-        {`${comments.length} Comments`}
-      </Typography>
+      <div className={classes.commentTitleButtonWrap}>
+        <Typography className={classes.commentTitle}>
+          {`${comments.length} Comments`}
+        </Typography>
+        <Button
+          className={classes.backButton}
+          variant="outlined"
+          onClick={updateComments}
+        >
+          Update
+        </Button>
+      </div>
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
