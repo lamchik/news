@@ -26,10 +26,6 @@ type RenderTree = {
   children?: RenderTree[];
 };
 
-type Click = {
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-};
-
 const useStyles = makeStyles({
   root: {
     color: "#d1d1d1",
@@ -183,6 +179,7 @@ export function NewsPage() {
       return;
     }
     getCommentsFromApi();
+    setInterval(getCommentsFromApi, 60000);
   }, []);
 
   function getComments(kids: number[]): Promise<Comment[]> {
@@ -322,7 +319,7 @@ const Comments = ({
       <TreeView
         defaultCollapseIcon={<ExpandMoreIcon />}
         defaultExpandIcon={<ChevronRightIcon />}
-        defaultExpanded={comments.map((comment) => comment.id.toString())}
+        defaultExpanded={["root"]}
         className={classes.root}
         multiSelect
       >
