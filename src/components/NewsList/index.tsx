@@ -28,7 +28,6 @@ export function NewsList() {
 
   return (
     <Grid container spacing={3}>
-      {/*todo: optimize*/}
       {Object.values(allNews)
         .sort((a, b) => b.time.getTime() - a.time.getTime())
         .map((single) => (

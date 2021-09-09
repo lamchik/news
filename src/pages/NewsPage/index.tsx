@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card as CardComponent } from "@material-ui/core/";
 import { Link, useParams } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
@@ -7,10 +7,9 @@ import Button from "@material-ui/core/Button";
 import { News } from "../../domain/news";
 import { loadComments } from "../../api/comments";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { RootState } from "../../store";
 import { Action } from "../../store/comments";
 import { Comments } from "../../components/Comments";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import MaterialUiLink from "@material-ui/core/Link";
 import { useStyles } from "./styles";
 
@@ -19,19 +18,19 @@ type Params = {
 };
 
 export function NewsPage() {
-  const allNews = useSelector<RootState, Record<string, News>>(
-    (state) => state.news.allNews
-  );
   const [oneNews, setOneNews] = useState<News | undefined>();
   let { id } = useParams<Params>();
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const dispatchAction = (action: Action) => {
-    dispatch(action);
-  };
+  const dispatchAction = useCallback(
+    (action: Action) => {
+      dispatch(action);
+    },
+    [dispatch]
+  );
 
-  const loadCommentsToState = () => {
+  const loadCommentsToState = useCallback(() => {
     // fixme: load root comments first and the rest after user opens at least one comment
     loadComments(id)
       .then((output) => {
@@ -48,7 +47,7 @@ export function NewsPage() {
         dispatchAction({ type: "FailedToLoadComments", value: err });
         console.log(err);
       });
-  };
+  }, [id, dispatchAction]);
 
   const loadCommentsWithLoader = () => {
     dispatchAction({ type: "CommentsLoading" });
@@ -56,14 +55,13 @@ export function NewsPage() {
   };
 
   useEffect(() => {
-    // fixme: dont load whole news if it already in state
     loadCommentsToState();
 
     let timerId = setInterval(loadCommentsToState, 60000);
     return () => {
       clearInterval(timerId);
     };
-  }, []);
+  }, [loadCommentsToState]);
 
   if (!oneNews) {
     return <CircularProgress />;

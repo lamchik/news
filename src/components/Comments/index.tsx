@@ -10,7 +10,6 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { useStyles } from "./styles";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { News } from "../../domain/news";
 import { DataState } from "../../api";
 
 type CommentTree = {

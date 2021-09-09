@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Typography } from "@material-ui/core";
 import { Action } from "../../store/news";
@@ -11,11 +11,14 @@ export const NewsListPage = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  const dispatchAction = (action: Action) => {
-    dispatch(action);
-  };
+  const dispatchAction = useCallback(
+    (action: Action) => {
+      dispatch(action);
+    },
+    [dispatch]
+  );
 
-  const loadNewsToState = () => {
+  const loadNewsToState = useCallback(() => {
     loadNews()
       .then((news) => {
         dispatchAction({ type: "NewsLoaded", value: news });
@@ -23,12 +26,12 @@ export const NewsListPage = () => {
       .catch((err) => {
         dispatchAction({ type: "FailedToLoadNews", value: err.toString() });
       });
-  };
+  }, [dispatchAction]);
 
-  function getNews() {
+  const getNews = useCallback(() => {
     dispatchAction({ type: "NewsLoading" });
     loadNewsToState();
-  }
+  }, [dispatchAction, loadNewsToState]);
 
   useEffect(() => {
     getNews();
@@ -36,7 +39,7 @@ export const NewsListPage = () => {
     return () => {
       clearInterval(timerId);
     };
-  }, []);
+  }, [getNews, loadNewsToState]);
 
   return (
     <>
