@@ -2,75 +2,34 @@ import { Card as CardComponent } from "@material-ui/core/";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { styled } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { News } from "../../domain/news";
+import { useStyles } from "./styles";
 
 type Props = {
   news: News;
 };
 
-const Title = styled(Typography)({
-  fontSize: "18px",
-  fontWeight: "normal",
-  color: "#fafafa",
-});
-
-const Score = styled(Typography)({
-  fontWeight: "lighter",
-  fontSize: "12px",
-  color: "#d1d1d1",
-  opacity: "0.8",
-  paddingRight: "10px",
-});
-
-const Date = styled(Typography)({
-  fontSize: "13px",
-  fontWeight: "lighter",
-  color: "#d1d1d1",
-});
-
-const Author = styled(Typography)({
-  fontSize: "12px",
-  fontWeight: "lighter",
-  color: "#d1d1d1",
-});
-
-const Card = styled(CardComponent)({
-  backgroundColor: "#313238",
-  height: "100%",
-  padding: "15px",
-  boxSizing: "border-box",
-});
-
-const CardCont = styled(CardContent)({
-  padding: "0",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-});
-
-const ButtonLink = styled(Link)({
-  textDecoration: "none",
-});
-
 export function NewsCard({ news }: Props) {
+  const classes = useStyles();
+
   return (
-    <Card>
-      <CardCont>
-        <Date>{news.time.toDateString()}</Date>
-        <Title>{news.title}</Title>
+    <CardComponent className={classes.card}>
+      <CardContent className={classes.cardCont}>
+        <Typography className={classes.date}>
+          {news.time.toDateString()}
+        </Typography>
+        <Typography className={classes.title}>{news.title}</Typography>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", paddingBottom: 5 }}>
-            <Score>{news.score}</Score>
-            <Author>{news.by}</Author>
+            <Typography className={classes.score}>{news.score}</Typography>
+            <Typography className={classes.author}>{news.by}</Typography>
           </div>
-          <ButtonLink to={`/news/${news.id}`}>
+          <Link className={classes.buttonLink} to={`/news/${news.id}`}>
             <Button variant="contained">Learn more</Button>
-          </ButtonLink>
+          </Link>
         </div>
-      </CardCont>
-    </Card>
+      </CardContent>
+    </CardComponent>
   );
 }
