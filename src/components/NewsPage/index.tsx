@@ -214,7 +214,10 @@ export function NewsPage() {
       return;
     }
     getCommentsFromApiWithLoader();
-    setInterval(getCommentsFromApi, 60000);
+    let timerId = setInterval(() => getCommentsFromApi(), 60000);
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   function getComments(kids: number[]): Promise<Comment[]> {

@@ -11,10 +11,6 @@ import { NewsPage } from "./components/NewsPage";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
-const Preloader = styled(CircularProgress)({
-  color: "#f19460",
-});
-
 const useStyles = makeStyles({
   titleButtonWrap: {
     display: "flex",
@@ -52,11 +48,11 @@ function App() {
   };
 
   function getNews() {
+    dispatchAction({ type: "NewsLoading" });
     fetch("https://hacker-news.firebaseio.com/v0/newstories.json", {
       method: "GET",
     })
       .then((res) => {
-        dispatchAction({ type: "NewsLoading" });
         return res.json();
       })
       .then((newsIds: number[]) => {
@@ -110,11 +106,16 @@ function App() {
       .catch((err) => {
         dispatchAction({ type: "FailedToLoadNews", value: err.toString() });
       });
+    console.log("MEOW");
   }
 
   useEffect(() => {
     getNews();
     setInterval(getNewsForAutomaticUpdating, 60000);
+    let timerId = setInterval(() => getNewsForAutomaticUpdating(), 60000);
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   return (
@@ -132,7 +133,9 @@ function App() {
             </Button>
           </div>
           {dataState === "failed" && <p>{error}</p>}
-          {(dataState === "idle" || dataState === "loading") && <Preloader />}
+          {(dataState === "idle" || dataState === "loading") && (
+            <CircularProgress />
+          )}
           {dataState === "loaded" && <NewsList />}
         </Route>
         <Route path="/news/:id">
