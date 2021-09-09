@@ -51,15 +51,15 @@ function App() {
     dispatch(action);
   };
 
-  useEffect(() => {
+  function getNews() {
     fetch("https://hacker-news.firebaseio.com/v0/newstories.json", {
       method: "GET",
     })
       .then((res) => {
+        dispatchAction({ type: "NewsLoading" });
         return res.json();
       })
       .then((newsIds: number[]) => {
-        // todo: change to 100
         const firstNewsIds = newsIds.slice(0, 100);
         const promiseArray = firstNewsIds.map((newsId) =>
           fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`, {
@@ -80,6 +80,41 @@ function App() {
       .catch((err) => {
         dispatchAction({ type: "FailedToLoadNews", value: err.toString() });
       });
+  }
+
+  function getNewsForAutomaticUpdating() {
+    fetch("https://hacker-news.firebaseio.com/v0/newstories.json", {
+      method: "GET",
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((newsIds: number[]) => {
+        const firstNewsIds = newsIds.slice(0, 100);
+        const promiseArray = firstNewsIds.map((newsId) =>
+          fetch(`https://hacker-news.firebaseio.com/v0/item/${newsId}.json`, {
+            method: "GET",
+          })
+        );
+        return Promise.all(promiseArray);
+      })
+      .then((allFetchResults) => {
+        return Promise.all(
+          allFetchResults.map((fetchResult) => fetchResult.json())
+        );
+      })
+      .then((apiNews: APINews[]) => {
+        const news = apiNews.map((news) => apiNewsToNews(news));
+        dispatchAction({ type: "NewsLoaded", value: news });
+      })
+      .catch((err) => {
+        dispatchAction({ type: "FailedToLoadNews", value: err.toString() });
+      });
+  }
+
+  useEffect(() => {
+    getNews();
+    setInterval(getNewsForAutomaticUpdating, 60000);
   }, []);
 
   return (
@@ -88,7 +123,11 @@ function App() {
         <Route exact path="/">
           <div className={classes.titleButtonWrap}>
             <Typography className={classes.header}>Hacker News</Typography>
-            <Button className={classes.button} variant="outlined">
+            <Button
+              className={classes.button}
+              variant="outlined"
+              onClick={getNews}
+            >
               Update
             </Button>
           </div>
