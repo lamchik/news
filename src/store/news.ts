@@ -1,6 +1,5 @@
 import { News } from "../domain/news";
-
-export type DataState = "idle" | "loading" | "loaded" | "failed";
+import { DataState } from "../api";
 
 export type State = {
   allNews: Record<string, News>;

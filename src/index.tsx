@@ -2,10 +2,10 @@ import * as React from "react";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
-import { newsReducer } from "./store/reducer";
+import { rootReducer } from "./store";
 import App from "./App";
 
-const store = createStore(newsReducer);
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
