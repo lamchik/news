@@ -1,6 +1,7 @@
 # News
+посмотреть итоговый проект тут https://suspicious-raman-408ac6.netlify.app/
 
-Интерфейс для сайта новостей  Hacker News https://news.ycombinator.com/news
+Интерфейс для сайта новостей  Hacker News (https://news.ycombinator.com/news)
 
 ### Технологии:
 * TypeScript
