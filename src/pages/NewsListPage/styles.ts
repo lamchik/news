@@ -7,15 +7,21 @@ export const useStyles = makeStyles({
   header: {
     fontSize: "32px",
     fontWeight: "bold",
-    color: "#fafafa",
+    textTransform: "uppercase",
+    color: "#569dff",
     margin: "0 30px 30px 0",
   },
 
   button: {
     width: "70px",
     height: "35px",
-    borderColor: "#d1d1d1",
-    color: "#d1d1d1",
+    borderColor: "#222327",
+    color: "#222327",
     marginTop: "7px",
+    transition: "all .2s linear",
+    "&:hover": {
+      borderColor: "#569dff",
+      color: "#569dff",
+    },
   },
 });

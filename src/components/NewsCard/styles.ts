@@ -2,36 +2,44 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
   title: {
-    fontSize: "18px",
-    fontWeight: "normal",
-    color: "#fafafa",
+    fontSize: "1.5rem",
+    fontWeight: "bolder",
+    color: "#444444",
+    transition: "all .2s linear",
+    "&:hover": {
+      textDecoration: "underline",
+      opacity: "0.7",
+    },
+  },
+
+  date: {
+    fontSize: "1rem",
+    fontWeight: "lighter",
+    color: "#757575",
   },
 
   score: {
     fontWeight: "lighter",
-    fontSize: "12px",
-    color: "#d1d1d1",
+    fontSize: ".875rem",
+    color: "#569dff",
     opacity: "0.8",
     paddingRight: "10px",
   },
 
-  date: {
-    fontSize: "13px",
-    fontWeight: "lighter",
-    color: "#d1d1d1",
-  },
-
   author: {
-    fontSize: "12px",
+    fontSize: ".875rem",
     fontWeight: "lighter",
-    color: "#d1d1d1",
+    color: "#569dff",
   },
 
   card: {
-    backgroundColor: "#313238",
-    height: "100%",
-    padding: "15px",
+    backgroundColor: "#ffffff",
+    height: "18rem",
+    width: "23rem",
+    padding: "1rem",
     boxSizing: "border-box",
+    boxShadow: "0.5rem 0.7rem 1rem rgba(0, 0, 0, 0.5)",
+    borderRadius: "1rem",
   },
 
   cardCont: {
@@ -42,7 +50,7 @@ export const useStyles = makeStyles({
     justifyContent: "space-between",
   },
 
-  buttonLink: {
+  link: {
     textDecoration: "none",
   },
 });

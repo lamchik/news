@@ -81,7 +81,12 @@ export function NewsPage() {
           </Typography>
           <Typography className={classes.title}>{oneNews.title}</Typography>
           {oneNews.url && (
-            <MaterialUiLink href={oneNews.url} target="_blank" rel="noreferrer">
+            <MaterialUiLink
+              href={oneNews.url}
+              className={classes.link}
+              target="_blank"
+              rel="noreferrer"
+            >
               {oneNews.url}
             </MaterialUiLink>
           )}

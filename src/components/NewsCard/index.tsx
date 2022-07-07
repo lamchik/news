@@ -1,7 +1,6 @@
 import { Card as CardComponent } from "@material-ui/core/";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { News } from "../../domain/news";
 import { useStyles } from "./styles";
@@ -19,15 +18,14 @@ export function NewsCard({ news }: Props) {
         <Typography className={classes.date}>
           {news.time.toDateString()}
         </Typography>
-        <Typography className={classes.title}>{news.title}</Typography>
+        <Link className={classes.link} to={`/news/${news.id}`}>
+          <Typography className={classes.title}>{news.title}</Typography>
+        </Link>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", paddingBottom: 5 }}>
             <Typography className={classes.score}>{news.score}</Typography>
             <Typography className={classes.author}>{news.by}</Typography>
           </div>
-          <Link className={classes.buttonLink} to={`/news/${news.id}`}>
-            <Button variant="contained">Learn more</Button>
-          </Link>
         </div>
       </CardContent>
     </CardComponent>

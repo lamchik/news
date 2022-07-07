@@ -6,9 +6,9 @@ import { NewsListPage } from "./pages/NewsListPage";
 
 const useStyles = makeStyles({
   container: {
-    backgroundColor: "#1e1f25",
+    backgroundColor: "#f6f6f6",
     minHeight: "100vh",
-    padding: "30px",
+    padding: "2rem 16rem",
   },
 });
 

@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles({
   root: {
-    color: "#d1d1d1",
+    color: "#222327",
   },
   commentWrap: {
     margin: "20px 0 0 0",
@@ -13,31 +13,37 @@ export const useStyles = makeStyles({
   commentBy: {
     fontSize: "16px",
     fontWeight: "normal",
-    color: "#d1d1d1",
+    color: "#222327",
     margin: "0",
   },
   comment: {
     fontSize: "14px",
     fontWeight: "normal",
-    color: "#d1d1d1",
+    color: "#222327",
     opacity: "0.7",
     margin: "0",
     "& p": {
       margin: "0",
       "& a": {
-        color: "#3e53b1",
+        color: "#222327",
       },
     },
   },
 
   commentTitle: {
-    fontSize: "22px",
+    fontSize: "1.5rem",
     fontWeight: "normal",
-    color: "#d1d1d1",
-    marginRight: "20px",
+    color: "#222327",
+    marginRight: "1.5rem",
   },
+
   backButton: {
-    borderColor: "#d1d1d1",
-    color: "#d1d1d1",
+    borderColor: "#222327",
+    color: "#222327",
+    transition: "all .2s linear",
+    "&:hover": {
+      borderColor: "#569dff",
+      color: "#569dff",
+    },
   },
 });

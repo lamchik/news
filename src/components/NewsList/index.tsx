@@ -27,11 +27,11 @@ export function NewsList() {
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={4}>
       {Object.values(allNews)
         .sort((a, b) => b.time.getTime() - a.time.getTime())
         .map((single) => (
-          <Grid key={single.id} item xs={3}>
+          <Grid key={single.id} item xs={5}>
             <NewsCard news={single} />
           </Grid>
         ))}
