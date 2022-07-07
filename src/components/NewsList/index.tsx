@@ -5,9 +5,13 @@ import { DataState } from "../../api";
 import { RootState } from "../../store";
 import { News } from "../../domain/news";
 import { Typography } from "@material-ui/core";
+import { useStyles } from "./styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import React from "react";
 
 export function NewsList() {
+  const classes = useStyles();
+
   const allNews = useSelector<RootState, Record<string, News>>(
     (state) => state.news.allNews
   );
@@ -23,15 +27,15 @@ export function NewsList() {
   }
 
   if (dataState === "idle" || dataState === "loading") {
-    return <CircularProgress />;
+    return <CircularProgress className={classes.loader} />;
   }
 
   return (
-    <Grid container spacing={4}>
+    <Grid container spacing={8}>
       {Object.values(allNews)
         .sort((a, b) => b.time.getTime() - a.time.getTime())
         .map((single) => (
-          <Grid key={single.id} item xs={5}>
+          <Grid key={single.id} item xs={4}>
             <NewsCard news={single} />
           </Grid>
         ))}

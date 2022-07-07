@@ -34,8 +34,8 @@ export const useStyles = makeStyles({
 
   card: {
     backgroundColor: "#ffffff",
-    height: "18rem",
-    width: "23rem",
+    height: "23rem",
+    minWidth: "10rem",
     padding: "1rem",
     boxSizing: "border-box",
     boxShadow: "0.5rem 0.7rem 1rem rgba(0, 0, 0, 0.5)",

@@ -57,4 +57,8 @@ export const useStyles = makeStyles({
     boxSizing: "border-box",
     margin: "3rem 0px",
   },
+
+  loader: {
+    color: "#569dff",
+  },
 });

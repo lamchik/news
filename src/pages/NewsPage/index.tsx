@@ -64,7 +64,7 @@ export function NewsPage() {
   }, [loadCommentsToState]);
 
   if (!oneNews) {
-    return <CircularProgress />;
+    return <CircularProgress className={classes.loader} />;
   }
 
   return (
